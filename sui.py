@@ -18,7 +18,8 @@ def get_argparser():
     return parser.parse_args()
 
 def suDomain_query(domain):
-    if not (domain.find("com.cn") >= 0 or domain.find("org.cn")  >= 0 or domain.find("net.cn")  >= 0  or domain.find("edu.cn") >= 0 ) :
+    #如果有查询部分类型目标用的三级域名的，需要在这里把他一二级域名加上才可以查到，不然只会查到二级域名为止
+    if not (domain.find("com.cn") >= 0 or domain.find("org.cn")  >= 0 or domain.find("net.cn")  >= 0  or domain.find("edu.cn") >= 0 ) : 
         return True
     else:
         return False
@@ -59,7 +60,10 @@ def get_weight_list(domain):
     #icp_pattern = r'>(.+)-企业信息</h4>'
     icp_pattern = r'>(.+) &nbsp;&nbsp; 企业</p>'
     for n,url in weight_dict.items():
+        
+        #调用的接口不能访问太快不然IP会暂时被ban，所以这里需要加个查询延迟
         time.sleep(random.uniform(0.2,0.5))
+        
         if n == "googlepr":
             req = requests.get(url, headers=header)
             temp_weight_ls.append(re.search(pr_pattern,req.text).groups(0)[0])
@@ -111,6 +115,8 @@ def main():
     # domain_list = Domain_push("list1")
     for i in domain_list:
         print("--")
+        
+         #防止查询过快被ban
         time.sleep(0.3)
         weight_print(i,weight_name[1:],output=args.output)
 
