@@ -3,4 +3,5 @@
 
 自己写来查权重的，并没什么易维护性可言
 
+# Example
 ![sui](https://github.com/user-attachments/assets/ad455c18-8d1c-4dad-883b-4cd811e24e22)
